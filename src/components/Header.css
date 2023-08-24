@@ -1,0 +1,56 @@
+
+header {
+    height: 50vh;
+    background-repeat: no-repeat;
+    background-image: url('../imgs/casino.jpg');
+    background-size: cover;
+}
+
+.header-title {
+    font-size: 10rem;
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 0.5rem white;
+}
+
+.header-sub {
+    font-size: 3rem;
+    text-align: center;
+    color: white;
+}
+
+.menu-container {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    margin-top: 5rem;
+}
+
+.menu-link {
+    border-radius: 5rem;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 2rem;
+}
+
+.menu-link.game1 {
+    background-color: red;
+    box-shadow: 0 0.3em 0 #761b25;
+}
+
+.menu-link.game2 {
+    background-color: green;
+    box-shadow: 0 0.3em 0 rgb(115, 115, 62);
+}
+
+.menu-link.game3 {
+    background-color: blue;
+    box-shadow: 0 0.3em 0 rgb(12, 12, 92);
+}
+
+.menu-link:hover {
+    box-shadow: none;
+    transform: translateY(0.5rem);
+}
+
