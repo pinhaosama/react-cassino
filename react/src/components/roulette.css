@@ -28,7 +28,7 @@ body {
 }
 
 .col-sm-2, .col-sm-12 {
-    height: 25px;
+    height: 35px !important;
     border: 1px solid black;
     font-size: medium;
 }
@@ -71,7 +71,7 @@ b {
     font-size: 6rem;
 }
 
-#bet {
+.bet {
     width: 120px;
     padding: 2px;
 }.roul {
