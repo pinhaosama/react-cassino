@@ -5,18 +5,18 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 
-const baseURL = "http://localhost:5000/roulette";
+const baseURL = "http://localhost:5000/roulette?";
 
 
 export default function Roulette() {
-  const [num, setNum] = useState(null);
+  const [num, setNum] = useState('');
   const [calar, setCalar] = useState(null);
-  const [post, setPost] = useState(null);
+  const [bet, setBet] = useState('');
 
   function handleChange(n) {
     var zas = n.target.value;
     setNum(zas);
-    if(zas == 0){
+    if(zas === 0){
       setCalar("lightgreen");
       console.log({calar});
     }else if(zas % 2 === 0){
@@ -28,11 +28,16 @@ export default function Roulette() {
     } 
   }
 
-  React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      console.log(response.data);
-    });
-  }, []);
+  function handleBet(n) {
+    setBet(n.target.value);
+  }
+
+  function htpRqq() {
+      axios.get(baseURL+'number='+num+'&amount='+bet).then((response) => {
+        console.log(response.data);
+      });
+  }
+
 
   // if (!post) return null;
 
@@ -100,12 +105,12 @@ export default function Roulette() {
         <div id="dingus">
           <div className="pholder"><b style={{"color": calar}}>{num}</b></div>
           <input className="bet" type="number" value={num} onChange={handleChange} placeholder="Bet Number" min="0" max="36"></input>
-          <input className="bet" type="number" /*value={bet}*/ placeholder="Bet Amount"></input>
+          <input className="bet" type="number" value={bet} onChange={handleBet} placeholder="Bet Amount"></input>
         </div>
 
       </div>
 
-      <button className="btn btn-success mt-4" >Roll</button>
+      <button onClick={htpRqq} className="btn btn-success mt-4" >Roll</button>
 
     </div>
   )
