@@ -1,3 +1,5 @@
+const { useContext } = require("react");
+
 let scoreInHand;
 let deck = [];
 let cardsInHandP = [];
@@ -5,8 +7,7 @@ let cardsInHandD = [];
 
 async function gameDefault() {
     await getDeck();
-    // getCoin();
-    // $('#coinCounter').text(getCoin());
+    document.querySelector('#coinCounter').innerHTML = await getCoin();
 
     // Player Default
     cardsInHandP = [];
@@ -112,13 +113,25 @@ function drawCardP() {
     drawCard(deck, '#drawn-card', '#score-inhand', cardsInHandP);
 }
 
-function stand() {
+async function stand() {
     let scoreP = parseInt(document.querySelector('#score-inhand').innerHTML);
     let scoreD = parseInt(document.querySelector('#score-inhand-dealer').innerHTML);
     while (scoreD < 17) {
         drawCard(deck, '#drawn-card-dealer', '#score-inhand-dealer', cardsInHandP);
         scoreD = parseInt(document.querySelector('#score-inhand-dealer').innerHTML);
     }
+
+    await fetch("http://localhost:3000/blackjack", {
+        method: "POST",
+        headers: { "task": "coin" },
+        data:{ TEST: "TESTTEXT" }
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+
+        });
 
     const result = document.createElement("p");
 
@@ -139,6 +152,21 @@ function stand() {
         document.querySelector('#score-inhand').append(result);
         return;
     }
+}
+
+async function getCoin() {
+    let userCoin;
+    await fetch("http://localhost:3000/blackjack", {
+        method: "GET",
+        headers: { task: "coin" },
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            userCoin = data.coin;
+        });
+    return userCoin;
 }
 
 module.exports = {

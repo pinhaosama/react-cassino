@@ -1,11 +1,6 @@
 import Buttons from "./Buttons";
 const {
   gameDefault,
-  getDeck,
-  drawCard,
-  renderCard,
-  drawCardP,
-  stand,
 } = require("../Blackjack");
 
 export default function PlayerSection() {
