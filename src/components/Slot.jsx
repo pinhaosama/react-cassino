@@ -89,6 +89,34 @@ export default function Slot() {
         }
     };
 
+    // send Score using server
+    const stopButtonAndSendScore = async () => {
+        // ストップボタンが押されたときの処理
+        stopButton();
+      
+        // HTTP POSTリクエストの処理
+        try {
+          const response = await fetch('http://localhost:3000/slot', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ score }),
+          });
+      
+          if (response.ok) {
+            // リクエストが成功した場合の処理
+            console.log('Score sent successfully');
+          } else {
+            // リクエストが失敗した場合の処理
+            console.error('Failed to send score');
+          }
+        } catch (error) {
+          console.error('An error occurred', error);
+        }
+      };
+      
+
 
     // ----Reset The Slot----
 
@@ -123,7 +151,7 @@ export default function Slot() {
             <div id="slot2" className="slot">{slot3Value}</div>
 
             <div>
-                <button id="stop" onClick={stopButton}>STOP</button>
+                <button id="stop" onClick={stopButtonAndSendScore}>STOP</button>
             </div>
 
             <button id="reset" onClick={resetButton}>RESET</button>
