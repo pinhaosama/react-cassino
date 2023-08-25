@@ -63,7 +63,7 @@ async function getDeck() {
         });
 };
 
-function drawCard(deck, cardElement, scoreElement, cardsInHand) {
+async function drawCard(deck, cardElement, scoreElement, cardsInHand) {
     document.querySelector(cardElement).append(renderCard(deck[0]));
     cardsInHand.push(deck[0]);
 
@@ -90,6 +90,8 @@ function drawCard(deck, cardElement, scoreElement, cardsInHand) {
         const bust = document.createElement("p");
         bust.innerHTML = "BUST!"
         document.querySelector(scoreElement).append(bust);
+        let coinNum = parseInt(await getCoin())-1;
+        changeCoin(coinNum);
     }
     deck.shift();
 };
@@ -121,37 +123,40 @@ async function stand() {
         scoreD = parseInt(document.querySelector('#score-inhand-dealer').innerHTML);
     }
 
-    await fetch("http://localhost:3000/blackjack", {
+    let coinNum = parseInt(await getCoin());
+
+    const result = document.createElement("p");
+    if (document.querySelector('#score-inhand-dealer').innerHTML.includes('BUST')) {
+        result.innerHTML = 'You win!';
+        coinNum++;
+    } else {
+        if (scoreD < scoreP) {
+            result.innerHTML = 'You win!';
+            coinNum++;
+        } if (scoreD === scoreP) {
+            result.innerHTML = 'Push!';
+        } if (scoreD > scoreP) {
+            result.innerHTML = 'You lost!';
+            coinNum--;
+        }
+    }
+    document.querySelector('#score-inhand').append(result);
+    changeCoin(coinNum);
+}
+
+async function changeCoin(coin) {
+    fetch("http://localhost:3000/blackjack", {
         method: "POST",
-        headers: { "task": "coin" },
-        data:{ TEST: "TESTTEXT" }
+        headers: { "Content-Type": "application/json", "task": "coin" },
+        body: JSON.stringify({ "coin": coin })
     })
         .then(function (response) {
+            console.log(response);
             return response.json();
         })
         .then(function (data) {
-
+            console.log(data);
         });
-
-    const result = document.createElement("p");
-
-    if (document.querySelector('#score-inhand-dealer').innerHTML.includes('BUST')) {
-        result.innerHTML = 'You win!';
-        document.querySelector('#score-inhand').append(result);
-        return;
-    } if (scoreD < scoreP) {
-        result.innerHTML = 'You win!';
-        document.querySelector('#score-inhand').append(result);
-        return;
-    } if (scoreD === scoreP) {
-        result.innerHTML = 'Push!';
-        document.querySelector('#score-inhand').append(result);
-        return;
-    } else {
-        result.innerHTML = 'You lost!';
-        document.querySelector('#score-inhand').append(result);
-        return;
-    }
 }
 
 async function getCoin() {
