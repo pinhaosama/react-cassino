@@ -50,7 +50,7 @@ async function gameDefault() {
 };
 
 async function getDeck() {
-    await fetch("http://localhost:3000/blackjack", {
+    await fetch("http://localhost:5000/blackjack", {
         method: "GET",
         headers: { task: "blackjack" },
     })
@@ -58,7 +58,7 @@ async function getDeck() {
             return response.json();
         })
         .then(function (data) {
-            deck = data;
+            deck = data;    
         });
 };
 
