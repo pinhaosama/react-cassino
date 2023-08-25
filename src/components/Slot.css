@@ -4,15 +4,15 @@
 }
 
 .slot {
-      float: left;
-      width: calc(100% / 3);
-      font-size: 4rem;
-      color: white;
+    float: left;
+    width: calc(100% / 3);
+    font-size: 4rem;
+    color: white;
 }
 
 .game {
   background-color: rgb(35, 35, 143);
-  margin: 0 auto;
+  margin: 20px auto;
   width: 40rem;
   text-align: center;
   padding: 3rem;

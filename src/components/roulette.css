@@ -6,7 +6,7 @@ body {
 
 .roul {
     background-color: rgb(35, 35, 143);
-    margin: 0 auto;
+    margin: 20px auto !important;
     width: fit-content;
     text-align: center;
     padding: 3rem;

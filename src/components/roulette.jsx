@@ -16,7 +16,7 @@ export default function Roulette() {
   function handleChange(n) {
     var zas = n.target.value;
     setNum(zas);
-    if(zas === 0){
+    if(zas == 0){
       setCalar("lightgreen");
       console.log({calar});
     }else if(zas % 2 === 0){
@@ -33,13 +33,14 @@ export default function Roulette() {
   }
 
   function htpRqq() {
-      axios.get(baseURL).then((response) => {
-        alert(response.data);
-      });
-  }
-
-  function doPostRequest() {
+    if(num === '' || bet === ''){
+      alert('invalid bet!');
+    }else{
+    axios.get(baseURL).then((response) => {
+      alert(response.data);
+    });
     axios.post(baseURL);
+    }
   }
 
   // if (!post) return null;
@@ -108,13 +109,12 @@ export default function Roulette() {
         <div id="dingus">
           <div className="pholder"><b style={{"color": calar}}>{num}</b></div>
           <input className="bet" type="number" value={num} onChange={handleChange} placeholder="Bet Number" min="0" max="36"></input>
-          <input className="bet" type="number" value={bet} onChange={handleBet} placeholder="Bet Amount"></input>
+          <input className="bet" type="number" value={bet} onChange={handleBet} placeholder="Bet Amount" min="1"></input>
         </div>
 
       </div>
 
       <button onClick={htpRqq} className="btn btn-success mt-4" >Roll</button>
-      <button onClick={doPostRequest} className="btn btn-success mt-4" >psot</button>
 
     </div>
   )

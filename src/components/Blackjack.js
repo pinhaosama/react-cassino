@@ -145,7 +145,7 @@ async function stand() {
 }
 
 async function changeCoin(coin) {
-    fetch("http://localhost:3000/blackjack", {
+    fetch("http://localhost:5000/blackjack", {
         method: "POST",
         headers: { "Content-Type": "application/json", "task": "coin" },
         body: JSON.stringify({ "coin": coin })
@@ -161,7 +161,7 @@ async function changeCoin(coin) {
 
 async function getCoin() {
     let userCoin;
-    await fetch("http://localhost:3000/blackjack", {
+    await fetch("http://localhost:5000/blackjack", {
         method: "GET",
         headers: { task: "coin" },
     })
