@@ -1,3 +1,5 @@
+const { useContext } = require("react");
+
 let scoreInHand;
 let deck = [];
 let cardsInHandP = [];
@@ -5,8 +7,7 @@ let cardsInHandD = [];
 
 async function gameDefault() {
     await getDeck();
-    // getCoin();
-    // $('#coinCounter').text(getCoin());
+    document.querySelector('#coinCounter').innerHTML = await getCoin();
 
     // Player Default
     cardsInHandP = [];
@@ -62,7 +63,7 @@ async function getDeck() {
         });
 };
 
-function drawCard(deck, cardElement, scoreElement, cardsInHand) {
+async function drawCard(deck, cardElement, scoreElement, cardsInHand) {
     document.querySelector(cardElement).append(renderCard(deck[0]));
     cardsInHand.push(deck[0]);
 
@@ -89,6 +90,8 @@ function drawCard(deck, cardElement, scoreElement, cardsInHand) {
         const bust = document.createElement("p");
         bust.innerHTML = "BUST!"
         document.querySelector(scoreElement).append(bust);
+        let coinNum = parseInt(await getCoin())-1;
+        changeCoin(coinNum);
     }
     deck.shift();
 };
@@ -112,7 +115,7 @@ function drawCardP() {
     drawCard(deck, '#drawn-card', '#score-inhand', cardsInHandP);
 }
 
-function stand() {
+async function stand() {
     let scoreP = parseInt(document.querySelector('#score-inhand').innerHTML);
     let scoreD = parseInt(document.querySelector('#score-inhand-dealer').innerHTML);
     while (scoreD < 17) {
@@ -120,25 +123,55 @@ function stand() {
         scoreD = parseInt(document.querySelector('#score-inhand-dealer').innerHTML);
     }
 
-    const result = document.createElement("p");
+    let coinNum = parseInt(await getCoin());
 
+    const result = document.createElement("p");
     if (document.querySelector('#score-inhand-dealer').innerHTML.includes('BUST')) {
         result.innerHTML = 'You win!';
-        document.querySelector('#score-inhand').append(result);
-        return;
-    } if (scoreD < scoreP) {
-        result.innerHTML = 'You win!';
-        document.querySelector('#score-inhand').append(result);
-        return;
-    } if (scoreD === scoreP) {
-        result.innerHTML = 'Push!';
-        document.querySelector('#score-inhand').append(result);
-        return;
+        coinNum++;
     } else {
-        result.innerHTML = 'You lost!';
-        document.querySelector('#score-inhand').append(result);
-        return;
+        if (scoreD < scoreP) {
+            result.innerHTML = 'You win!';
+            coinNum++;
+        } if (scoreD === scoreP) {
+            result.innerHTML = 'Push!';
+        } if (scoreD > scoreP) {
+            result.innerHTML = 'You lost!';
+            coinNum--;
+        }
     }
+    document.querySelector('#score-inhand').append(result);
+    changeCoin(coinNum);
+}
+
+async function changeCoin(coin) {
+    fetch("http://localhost:3000/blackjack", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "task": "coin" },
+        body: JSON.stringify({ "coin": coin })
+    })
+        .then(function (response) {
+            console.log(response);
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+        });
+}
+
+async function getCoin() {
+    let userCoin;
+    await fetch("http://localhost:3000/blackjack", {
+        method: "GET",
+        headers: { task: "coin" },
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            userCoin = data.coin;
+        });
+    return userCoin;
 }
 
 module.exports = {

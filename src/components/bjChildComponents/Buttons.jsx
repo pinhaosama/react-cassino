@@ -1,8 +1,5 @@
 const {
   gameDefault,
-  getDeck,
-  drawCard,
-  renderCard,
   drawCardP,
   stand,
 } = require("../Blackjack");

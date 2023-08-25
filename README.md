@@ -1,4 +1,8 @@
+
 # react-cassino
+
+# To run the server, execute this command and access 'http://localhost:5000/'
+PORT=5000 npm start
 
 This is the 2nd project named React Js CRUD App in the WD4 - JavaScript for Web Developers 2.
 The goal of this project is Refactor the Casino APP server - client-side Architecture.
